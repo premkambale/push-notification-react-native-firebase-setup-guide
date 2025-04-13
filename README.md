@@ -105,7 +105,7 @@ xmlns:tools="http://schemas.android.com/tools">
 
 ## ✅ **5. Ask User for Notification Permission**
 
-### In your make `PushService.js` file and add below code into it:
+### Make `PushService.js` file and add below code into it:
 
 ```js
 import { getApp } from '@react-native-firebase/app';
