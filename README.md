@@ -79,7 +79,7 @@ xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 ```
-### Now add below meta-data and service in <application>
+### Now add below meta-data and service in application tag
 ```xml
   <!-- Firebase Notification Channel Override -->
         <meta-data
@@ -105,38 +105,85 @@ xmlns:tools="http://schemas.android.com/tools">
 
 ## ✅ **5. Ask User for Notification Permission**
 
-### In your `App.js` or a file like `PushService.js`:
+### In your make `PushService.js` file and add below code into it:
 
 ```js
-import messaging from '@react-native-firebase/messaging';
+import { getApp } from '@react-native-firebase/app';
+import {
+  getMessaging,
+  getToken,
+  requestPermission,
+  onMessage,
+} from '@react-native-firebase/messaging';
+
+import messaging from '@react-native-firebase/messaging'; // Import just for AuthorizationStatus
 
 export async function requestUserPermission() {
-  const authStatus = await messaging().requestPermission();
-  const enabled =
-    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  console.log("called 1")
+  const app = getApp(); // Get default app instance
+  const messagingInstance = getMessaging(app);
 
-  if (enabled) {
-    console.log('Permission granted');
-    getFcmToken();
-  } else {
-    console.log('Permission not granted');
-  }
-}
-
-async function getFcmToken() {
   try {
-    const token = await messaging().getToken();
-    console.log('FCM Token:', token);
-    // You can send this token to your backend if needed
+    const authStatus = await requestPermission(messagingInstance);
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    console.log('FCM permission status:', authStatus);
+    console.log('Notification permission enabled:', enabled);
+
+    if (enabled) {
+      await getFcmToken(messagingInstance);
+    } else {
+      console.log('Permission not granted');
+    }
   } catch (error) {
-    console.log('Error getting FCM token', error);
+    console.log('Error requesting permission:', error);
   }
 }
+
+async function getFcmToken(messagingInstance) {
+  console.log("called 2")
+
+  try {
+    const token = await getToken(messagingInstance);
+    if (token) {
+      console.log('✅ FCM Token:', token);
+    } else {
+      console.log('❌ No FCM token received');
+    }
+  } catch (error) {
+    console.log('Error getting FCM token:', error);
+  }
+}
+
 ```
 
-> Call `requestUserPermission()` inside a `useEffect` in `App.js`
+> Call `requestUserPermission()` inside a `useEffect` in `App.js` like below
+-- Import below lines in `App.js`
+```js
+import { getApp } from '@react-native-firebase/app';
+import { getMessaging, onMessage } from '@react-native-firebase/messaging';
+import { requestUserPermission } from 'your PushService file path'; 
+import { Alert } from 'react-native'
+```
+-- and add below code
+```js
+ useEffect(() => {
+    // 👉 Ask for permission + get token on app start
+    requestUserPermission();
 
+    // 👉 Handle foreground notifications
+    const app = getApp();
+    const messaging = getMessaging(app);
+
+    const unsubscribe = onMessage(messaging, async remoteMessage => {
+      Alert.alert('📩 New Notification', JSON.stringify(remoteMessage.notification));
+    });
+
+    return unsubscribe; // cleanup on unmount
+  }, []);
+```
 ---
 
 ## ✅ **6. Show Notification in Foreground**
