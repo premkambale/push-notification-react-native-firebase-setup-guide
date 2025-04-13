@@ -104,6 +104,12 @@ xmlns:tools="http://schemas.android.com/tools">
 ```
 
 ---
+### Note: Disable newArchEnabled from your gradle.properties If you are using the clasic react-native architecture
+```js
+newArchEnabled = false
+```
+
+---
 
 ## ✅ **5. Ask User for Notification Permission**
 
