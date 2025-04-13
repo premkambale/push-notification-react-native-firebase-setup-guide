@@ -9,7 +9,7 @@
 
 ### 🔹 1.2 Create a New Project
 1. Click **“Add Project”**
-2. Give your project a name, like `BecharaNotifications`
+2. Give your project a name, like `XYZNotifications`
 3. Choose if you want to enable Analytics (optional)
 4. Firebase will create the project in a few seconds
 
@@ -20,8 +20,8 @@
 ### 🔹 2.1 Register Your Android App
 1. In your Firebase project → Click **"Add App"** and choose **Android**
 2. Enter:
-   - **Package Name**: Example - `com.bechara.pushapp`
-     > Make sure this matches the one in your `AndroidManifest.xml` file
+   - **Package Name**: Example - `com.xyznotification`
+     > Make sure this matches the applicationId `applicationId "com.margasthauser"` from `android\app\build.gradle` file
    - App nickname (optional)
    - SHA-1 (you can skip this if not using Google Sign-In)
 
@@ -46,7 +46,7 @@ npm install @react-native-firebase/app @react-native-firebase/messaging
 ```gradle
 buildscript {
   dependencies {
-    classpath 'com.google.gms:google-services:4.3.15' // check for latest
+    classpath('com.google.gms:google-services:4.3.15') // check for latest
   }
 }
 ```
@@ -57,7 +57,7 @@ buildscript {
 apply plugin: 'com.google.gms.google-services'
 
 dependencies {
-  implementation 'com.google.firebase:firebase-messaging:23.0.0'
+  implementation('com.google.firebase:firebase-messaging:23.0.0')
 }
 ```
 
