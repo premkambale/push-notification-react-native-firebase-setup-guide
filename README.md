@@ -1,4 +1,4 @@
-![Social Preview](https://github.com/premkambale/push-notification-react-native-firebase-setup-guide/blob/main/push-notify.png)
+![Social Preview](https://github.com/premkambale/push-notification-react-native-firebase-setup-guide/blob/main/push-nitify.png)
 
 # Push notification react-native and firebase setup guide
 ---
