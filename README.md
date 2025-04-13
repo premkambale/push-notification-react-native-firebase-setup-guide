@@ -160,14 +160,17 @@ async function getFcmToken(messagingInstance) {
 ```
 
 > Call `requestUserPermission()` inside a `useEffect` in `App.js` like below
--- Import below lines in `App.js`
+ --- 
+ Import below lines in `App.js`
+ 
 ```js
 import { getApp } from '@react-native-firebase/app';
 import { getMessaging, onMessage } from '@react-native-firebase/messaging';
 import { requestUserPermission } from 'your PushService file path'; 
 import { Alert } from 'react-native'
 ```
--- and add below code
+and add below code
+
 ```js
  useEffect(() => {
     // 👉 Ask for permission + get token on app start
