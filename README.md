@@ -159,6 +159,10 @@ async function getFcmToken(messagingInstance) {
 
 ```
 
+
+
+## ✅ **6. Show Notification in Foreground**
+
 > Call `requestUserPermission()` inside a `useEffect` in `App.js` like below
  --- 
  Import below lines in `App.js`
@@ -188,25 +192,6 @@ and add below code
   }, []);
 ```
 ---
-
-## ✅ **6. Show Notification in Foreground**
-
-```js
-import { useEffect } from 'react';
-import messaging from '@react-native-firebase/messaging';
-import { Alert } from 'react-native';
-
-useEffect(() => {
-  const unsubscribe = messaging().onMessage(async remoteMessage => {
-    Alert.alert('New Notification', JSON.stringify(remoteMessage.notification));
-  });
-
-  return unsubscribe;
-}, []);
-```
-
----
-
 ## ✅ **7. Send Test Notification from Firebase**
 
 1. Open Firebase → Go to **Cloud Messaging**
