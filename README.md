@@ -67,23 +67,38 @@ dependencies {
 
 ### In `android/app/src/main/AndroidManifest.xml`:
 
+#### First change the default manifest tag to 
 ```xml
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools">
+```
 
-<application ...>
-  <meta-data
-      android:name="com.google.firebase.messaging.default_notification_channel_id"
-      android:value="default" />
+### Then add this permissions , Skip if already added , duplication of these permissions may causes issue.
+```xml
+ <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+```
+### Now add below meta-data and service in <application>
+```xml
+  <!-- Firebase Notification Channel Override -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="default"
+            tools:replace="android:value" />
+        <meta-data
+            android:name="firebase_messaging_auto_init_enabled"
+            android:value="true" />
 
-  <service
-      android:name="io.invertase.firebase.messaging.ReactNativeFirebaseMessagingService"
-      android:exported="true">
-    <intent-filter>
-      <action android:name="com.google.firebase.MESSAGING_EVENT" />
-    </intent-filter>
-  </service>
-</application>
+        <!-- Firebase Messaging Service Override -->
+        <service
+            android:name="io.invertase.firebase.messaging.ReactNativeFirebaseMessagingService"
+            android:exported="true"
+            tools:replace="android:exported">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 ```
 
 ---
